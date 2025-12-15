@@ -18,7 +18,7 @@ const generateToken = (user) => {
 // Register new user
 exports.register = async (req, res) => {
   try {
-    const { userName, email, password } = req.body;
+    const { userName, email, password, } = req.body;
 
     // Validate input
     if (!userName || !email || !password) {
@@ -45,7 +45,8 @@ exports.register = async (req, res) => {
     const user = await User.create({
       userName,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      role: role || 'user' // This allows setting admin role
     });
 
     // Generate token
