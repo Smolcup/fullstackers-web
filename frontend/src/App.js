@@ -1,12 +1,18 @@
-import './App.css';
-import { Routes, Route } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Destinations from './pages/Destinations';
-import Marketplace from './pages/Marketplace';
-import About from './pages/About';
-import Contact from './pages/Contact';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Destinations from "./pages/Destinations";
+import Marketplace from "./pages/Marketplace";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Customers from "./components/Customers";
+import Profile from "./components/Profile";
+import PrivateRoute from "./components/PrivateRoute";
+
+import Register from "./components/Register";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -19,6 +25,24 @@ function App() {
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/customers"
+            element={
+              <PrivateRoute allowedRoles={["admin"]}>
+                <Customers />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute allowedRoles={["user"]}>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </main>
       <Footer />

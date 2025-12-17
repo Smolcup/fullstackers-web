@@ -7,7 +7,7 @@ export const trips = [
     duration: '3 days',
     price: 650,
     rating: 4.7,
-    image: 'https://images.unsplash.com/photo-1509098681024-b8dccf8a6eaf?q=80&w=1200&auto=format&fit=crop'
+    image: 'https://lp-cms-production.imgix.net/features/2018/09/camel-tour-tunisia-sahara-4e2190d83d69.jpg?auto=format&q=75&w=1920'
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ export const trips = [
     duration: '2 days',
     price: 420,
     rating: 4.5,
-    image: 'https://images.unsplash.com/photo-1562081540-334f9b3b8c40?q=80&w=1200&auto=format&fit=crop'
+    image: 'https://www.roadaffair.com/wp-content/uploads/2017/09/sidi-bou-said-tunisia-shutterstock_343992563.jpg'
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ export const trips = [
     duration: '1 day',
     price: 180,
     rating: 4.6,
-    image: 'https://images.unsplash.com/photo-1606490345601-9e44e4dcf08a?q=80&w=1200&auto=format&fit=crop'
+    image: 'https://media.tacdn.com/media/attractions-splice-spp-674x446/07/36/5a/a7.jpg'
   },
   {
     id: 4,

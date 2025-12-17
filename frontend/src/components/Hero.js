@@ -5,7 +5,7 @@ function Hero() {
     <section className="hero">
       <img
         alt="Beautiful Tunisia landscape"
-        src="https://images.unsplash.com/photo-1563049266-8b3b2d01aa45?q=80&w=1600&auto=format&fit=crop"
+        src="https://carthagemagazine.com/wp-content/uploads/2020/12/Chebika-Tozeur-1170x690.jpg"
       />
       <div className="hero-content">
         <h1 className="hero-title">Discover Tunisia</h1>

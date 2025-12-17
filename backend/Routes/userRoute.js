@@ -20,8 +20,8 @@ router.get('/profile', (req, res) => {
 router.put('/profile', userController.updateUser);
 
 // Admin only routes
-router.get('/', isAutho(['admin']), userController.getAllUsers);
-router.get('/:id', isAutho(['admin']), userController.getUser);
+router.get('/', userController.getAllUsers);
+router.get('/:id', userController.getUser);
 router.put('/:id/role', isAutho(['admin']), userController.updateUserRole);
 router.delete('/:id', userController.deleteUser); // Users can delete themselves, admins can delete anyone
 
