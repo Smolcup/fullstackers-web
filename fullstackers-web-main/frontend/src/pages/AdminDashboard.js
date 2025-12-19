@@ -8,6 +8,8 @@ function AdminDashboard() {
   const [recentTrips, setRecentTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [editingTrip, setEditingTrip] = useState(null);
+  const [editForm, setEditForm] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,6 +52,64 @@ function AdminDashboard() {
     } catch (err) {
       alert("Failed to delete trip");
       console.error("Delete trip error:", err);
+    }
+  };
+
+  // Quick edit functions
+  const startQuickEdit = (trip) => {
+    setEditingTrip(trip._id);
+    setEditForm({
+      title: trip.title,
+      price: trip.price,
+      destination: trip.destination,
+      featured: trip.featured
+    });
+  };
+
+  const cancelQuickEdit = () => {
+    setEditingTrip(null);
+    setEditForm({});
+  };
+
+  const saveQuickEdit = async (tripId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:6007/api/trips/${tripId}`,
+        editForm,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.data.success) {
+        setEditingTrip(null);
+        setEditForm({});
+        fetchDashboardData(); // Refresh the data
+      }
+    } catch (err) {
+      alert("Failed to update trip");
+      console.error("Quick edit error:", err);
+    }
+  };
+
+  const handleQuickEditChange = (field, value) => {
+    setEditForm(prev => ({ ...prev, [field]: value }));
+  };
+
+  const toggleFeatured = async (tripId, currentStatus) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:6007/api/trips/${tripId}`,
+        { featured: !currentStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.data.success) {
+        fetchDashboardData();
+      }
+    } catch (err) {
+      alert("Failed to update featured status");
+      console.error("Toggle featured error:", err);
     }
   };
 
@@ -100,7 +160,7 @@ function AdminDashboard() {
         </div>
       </div>
 
-      {/* Recent Trips */}
+      {/* Trip Management Section */}
       <div className="card" style={{ marginBottom: "2rem" }}>
         <div
           style={{
@@ -111,13 +171,13 @@ function AdminDashboard() {
             alignItems: "center",
           }}
         >
-          <h3>Recent Trips</h3>
+          <h3>Trip Management</h3>
           <button
             className="btn"
             onClick={() => navigate("/admin/add-trip")}
             style={{ background: "var(--accent)", color: "var(--text)" }}
           >
-            + Add Trip
+            + Add New Trip
           </button>
         </div>
         <div style={{ padding: "1rem" }}>
@@ -128,34 +188,125 @@ function AdminDashboard() {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                padding: "0.5rem 0",
+                padding: "1rem",
                 borderBottom: "1px solid var(--border)",
+                background: editingTrip === trip._id ? "var(--bg)" : "transparent",
               }}
             >
-              <div>
-                <h4 style={{ margin: 0, fontSize: "1rem" }}>{trip.title}</h4>
-                <p className="muted" style={{ margin: 0 }}>
-                  {trip.destination} • {trip.price} TND
-                </p>
-              </div>
+              {/* Quick Edit Mode */}
+              {editingTrip === trip._id ? (
+                <div style={{ flex: 1, display: "flex", gap: "1rem", alignItems: "center" }}>
+                  <input
+                    type="text"
+                    value={editForm.title}
+                    onChange={(e) => handleQuickEditChange('title', e.target.value)}
+                    style={{ flex: 1, padding: "0.5rem" }}
+                    placeholder="Trip title"
+                  />
+                  <input
+                    type="number"
+                    value={editForm.price}
+                    onChange={(e) => handleQuickEditChange('price', e.target.value)}
+                    style={{ width: "100px", padding: "0.5rem" }}
+                    placeholder="Price"
+                  />
+                  <input
+                    type="text"
+                    value={editForm.destination}
+                    onChange={(e) => handleQuickEditChange('destination', e.target.value)}
+                    style={{ flex: 1, padding: "0.5rem" }}
+                    placeholder="Destination"
+                  />
+                  <label style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input
+                      type="checkbox"
+                      checked={editForm.featured}
+                      onChange={(e) => handleQuickEditChange('featured', e.target.checked)}
+                    />
+                    Featured
+                  </label>
+                </div>
+              ) : (
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ margin: 0, fontSize: "1rem" }}>{trip.title}</h4>
+                  <p className="muted" style={{ margin: 0 }}>
+                    {trip.destination} • {trip.price} TND • {trip.duration} days
+                  </p>
+                  <div style={{ marginTop: "0.5rem" }}>
+                    <span
+                      style={{
+                        background: trip.featured ? "var(--accent)" : "var(--border)",
+                        color: trip.featured ? "var(--text)" : "var(--muted)",
+                        padding: "0.25rem 0.5rem",
+                        borderRadius: "4px",
+                        fontSize: "0.8rem",
+                        marginRight: "0.5rem",
+                      }}
+                    >
+                      {trip.featured ? "Featured" : "Regular"}
+                    </span>
+                    <span
+                      style={{
+                        background: "var(--primary)",
+                        color: "white",
+                        padding: "0.25rem 0.5rem",
+                        borderRadius: "4px",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      {trip.difficulty}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
               <div style={{ display: "flex", gap: "0.5rem" }}>
-                <button
-                  className="btn"
-                  style={{ padding: "0.25rem 0.5rem", fontSize: "0.8rem" }}
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent card click
-                    navigate(`/admin/edit-trip/${trip._id}`);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn secondary"
-                  style={{ padding: "0.25rem 0.5rem", fontSize: "0.8rem" }}
-                  onClick={() => handleDeleteTrip(trip._id)}
-                >
-                  Delete
-                </button>
+                {editingTrip === trip._id ? (
+                  <>
+                    <button
+                      className="btn"
+                      style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
+                      onClick={() => saveQuickEdit(trip._id)}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn secondary"
+                      style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
+                      onClick={cancelQuickEdit}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btn"
+                      style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
+                      onClick={() => startQuickEdit(trip)}
+                    >
+                        Edit
+                    </button>
+                    <button className="btn" onClick={() => navigate("/admin/bookings")}>
+                         Manage Bookings
+                    </button>
+                    <button
+                      className="btn secondary"
+                      style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
+                      onClick={() => toggleFeatured(trip._id, trip.featured)}
+                    >
+                      {trip.featured ? "Unfeature" : "Feature"}
+                    </button>
+                    <button
+                      className="btn secondary"
+                      style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
+                      onClick={() => handleDeleteTrip(trip._id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}
@@ -164,9 +315,7 @@ function AdminDashboard() {
 
       {/* Recent Users */}
       <div className="card">
-        <div
-          style={{ padding: "1rem", borderBottom: "1px solid var(--border)" }}
-        >
+        <div style={{ padding: "1rem", borderBottom: "1px solid var(--border)" }}>
           <h3>Recent Users</h3>
         </div>
         <div style={{ padding: "1rem" }}>

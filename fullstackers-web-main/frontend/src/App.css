@@ -391,3 +391,103 @@ footer {
     width: 100%;
   }
 }
+/* Your existing CSS variables */
+:root {
+  --primary: #008080;
+  --accent: #ffb703;
+  --bg: #f7f9fb;
+  --text: #1f2d3d;
+  --muted: #5c6b7a;
+  --card-bg: #ffffff;
+  --border: #e3e8ef;
+}
+
+/* Dark mode variables */
+.dark-mode {
+  --primary: #00a3a3;
+  --accent: #ffc107;
+  --bg: #121212;
+  --text: #ffffff;
+  --muted: #b0b0b0;
+  --card-bg: #1e1e1e;
+  --border: #333333;
+}
+
+/* Dark mode specific styles */
+.dark-mode .app-container {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.dark-mode .card {
+  background: var(--card-bg);
+  border-color: var(--border);
+}
+
+.dark-mode .btn {
+  background: var(--primary);
+  color: white;
+}
+
+.dark-mode .btn.secondary {
+  background: var(--accent);
+  color: var(--text);
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select,
+.dark-mode input,
+.dark-mode textarea {
+  background: var(--card-bg);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.dark-mode .nav {
+  background: var(--card-bg);
+  border-color: var(--border);
+}
+
+.dark-mode .hero-content {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.dark-mode .chatbot-window {
+  background: var(--card-bg);
+  border-color: var(--border);
+}
+
+.dark-mode .chatbot-header {
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+.dark-mode .chatbot-input-field {
+  background: var(--card-bg);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease;
+}
+
+/* Top bar for dark mode toggle */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.dark-mode .top-bar {
+  background: var(--card-bg);
+}

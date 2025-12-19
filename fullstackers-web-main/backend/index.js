@@ -6,10 +6,17 @@ const rateLimit = require('express-rate-limit');
 const connectDb = require('./Configuration/connectDB');
 require('dotenv').config();
 
+// Pre-load models so Mongoose registers every schema once
+require('./Models/User');
+require('./Models/Trip');
+require('./Models/Review');      // 1️⃣  NEW – stops "Schema hasn't been registered"
+require('./Models/Booking');
+
 // Import routes
 const authRoutes = require('./Routes/authRoute');
 const userRoutes = require('./Routes/userRoute');
 const tripRoutes = require('./Routes/tripRoute');
+const bookingRoutes = require('./Routes/bookingRoute');   // 2️⃣  NEW
 
 // Initialize express app
 const app = express();
@@ -47,6 +54,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/trips', tripRoutes);
+app.use('/api/bookings', bookingRoutes);   // 3️⃣  NEW
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -66,7 +74,8 @@ app.get('/', (req, res) => {
     endpoints: {
       auth: '/api/auth',
       users: '/api/users',
-      trips: '/api/trips'
+      trips: '/api/trips',
+      bookings: '/api/bookings'   // 4️⃣  NEW
     }
   });
 });

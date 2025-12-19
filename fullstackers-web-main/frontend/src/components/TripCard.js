@@ -19,6 +19,14 @@ function TripCard({ trip }) {
     navigate(`/book-trip/${trip._id}`);
   };
 
+  const askAboutTrip = (e) => {
+    e.stopPropagation();
+    // Open chatbot and ask about this specific trip
+    window.dispatchEvent(new CustomEvent('chatbot-open', { 
+      detail: { message: `Tell me about ${trip.title}` }
+    }));
+  };
+
   // Determine rating based on difficulty or generate a default
   const getRating = () => {
     if (trip.rating) return trip.rating;
@@ -66,18 +74,25 @@ function TripCard({ trip }) {
         </span>
         <span className="price">{trip.price} TND</span>
         
-        {/* Book Now button - always visible for better UX */}
+        {/* Action buttons for regular users */}
         {role !== 'admin' && (
-          <button 
-            className="btn" 
-            onClick={handleBookNow}
-            style={{ 
-              width: '100%', 
-              marginTop: '1rem'
-            }}
-          >
-            Book Now
-          </button>
+          <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+            <button 
+              className="btn" 
+              onClick={handleBookNow}
+              style={{ flex: 1 }}
+            >
+              Book Now
+            </button>
+            <button 
+              className="btn secondary" 
+              onClick={askAboutTrip}
+              style={{ padding: '0.5rem', minWidth: '40px' }}
+              title="Ask about this trip"
+            >
+              💬
+            </button>
+          </div>
         )}
       </div>
     </div>

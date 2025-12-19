@@ -1,6 +1,8 @@
 import { NavLink, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UserRole } from "./UserRole";
+import DarkModeToggle from './DarkModeToggle';
+import './NavBar.css';
 
 function NavBar() {
   const role = UserRole();
@@ -28,16 +30,15 @@ function NavBar() {
           <NavLink to="/destinations" className={({ isActive }) => `link ${isActive ? "active" : ""}`}>
             Destinations
           </NavLink>
-          <NavLink to="/marketplace" className={({ isActive }) => `link ${isActive ? "active" : ""}`}>
-            Marketplace
-          </NavLink>
+          
           <NavLink to="/about" className={({ isActive }) => `link ${isActive ? "active" : ""}`}>
             About
           </NavLink>
-          <NavLink to="/contact" className={({ isActive }) => `link ${isActive ? "active" : ""}`}>
-            Contact
-          </NavLink>
           
+          <NavLink to="/my-bookings" className={({isActive})=>`link ${isActive?'active':''}`}>
+            My Bookings
+          </NavLink>
+
           {role === "admin" && (
             <NavLink to="/admin" className={({ isActive }) => `link ${isActive ? "active" : ""}`}>
               Admin
@@ -59,6 +60,7 @@ function NavBar() {
             </NavLink>
           )}
         </div>
+        <DarkModeToggle />
       </div>
     </nav>
   );
