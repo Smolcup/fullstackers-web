@@ -1,0 +1,393 @@
+:root {
+  --primary: #008080;
+  --accent: #ffb703;
+  --bg: #f7f9fb;
+  --text: #1f2d3d;
+  --muted: #5c6b7a;
+  --card-bg: #ffffff;
+  --border: #e3e8ef;
+}
+
+* { box-sizing: border-box; }
+
+.app-container { 
+  display: flex; 
+  min-height: 100vh; 
+  flex-direction: column; 
+  background: var(--bg); 
+  color: var(--text); 
+}
+
+.main-content { 
+  flex: 1; 
+  padding: 24px 16px; 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  width: 100%; 
+}
+
+/* NavBar */
+.nav {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-inner { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 12px 16px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+}
+
+.brand { 
+  font-weight: 700; 
+  color: var(--primary); 
+  font-size: 1.1rem; 
+  text-decoration: none; 
+}
+
+.links { 
+  display: flex; 
+  gap: 14px; 
+  flex-wrap: wrap; 
+}
+
+.link { 
+  text-decoration: none; 
+  color: var(--muted); 
+  padding: 6px 10px; 
+  border-radius: 6px; 
+}
+
+.link.active { 
+  background: var(--primary); 
+  color: white; 
+}
+
+/* Hero */
+.hero { 
+  position: relative; 
+  border-radius: 12px; 
+  overflow: hidden; 
+  min-height: 280px; 
+  display: grid; 
+  align-items: center; 
+  margin-bottom: 24px; 
+}
+
+.hero img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  position: absolute; 
+  inset: 0; 
+  filter: brightness(0.7); 
+}
+
+.hero-content { 
+  position: relative; 
+  padding: 24px; 
+  color: white; 
+}
+
+.hero-title { 
+  font-size: 2rem; 
+  margin: 0 0 8px; 
+}
+
+.hero-sub { 
+  margin: 0 0 16px; 
+  opacity: 0.95; 
+}
+
+.btns { 
+  display: flex; 
+  gap: 10px; 
+  flex-wrap: wrap; 
+}
+
+.btn { 
+  background: var(--primary); 
+  color: white; 
+  border: 0; 
+  padding: 10px 14px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  text-decoration: none; 
+  display: inline-block; 
+ 
+}
+
+.btn.secondary { 
+  background: var(--accent); 
+  color: #1f2d3d; 
+}
+
+.btn:hover { 
+  opacity: 0.9; 
+}
+
+/* Sections */
+.section-title { 
+  margin: 24px 0 12px; 
+  font-size: 1.25rem; 
+}
+
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); 
+  gap: 16px; 
+}
+
+/* Cards */
+.card { 
+  background: var(--card-bg); 
+  border: 1px solid var(--border); 
+  border-radius: 12px; 
+  overflow: hidden; 
+}
+
+.card img { 
+  width: 100%; 
+  height: 150px; 
+  object-fit: cover; 
+}
+
+.card-body { 
+  padding: 12px; 
+  display: grid; 
+  gap: 6px; 
+}
+
+.card-title { 
+  font-weight: 600; 
+  margin: 0; 
+}
+
+.muted { 
+  color: var(--muted); 
+  font-size: 0.9rem; 
+}
+
+.price { 
+  font-weight: 700; 
+  color: var(--primary);
+}
+
+/* Filters */
+.filters { 
+  display: grid; 
+  gap: 10px; 
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+  margin: 8px 0 16px; 
+}
+
+.filters input, .filters select { 
+  padding: 10px; 
+  border: 1px solid var(--border); 
+  border-radius: 8px; 
+  background: white; 
+}
+
+/* Footer */
+footer { 
+  border-top: 1px solid var(--border); 
+  background: var(--card-bg); 
+}
+
+.footer-inner { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 16px; 
+  display: flex; 
+  justify-content: space-between; 
+  color: var(--muted); 
+  font-size: 0.95rem; 
+}
+
+/* Forms */
+.form { 
+  display: grid; 
+  gap: 10px; 
+  max-width: 520px; 
+}
+
+.form input, .form textarea { 
+  padding: 10px; 
+  border: 1px solid var(--border); 
+  border-radius: 8px; 
+  font: inherit; 
+}
+
+.form textarea { 
+  min-height: 120px; 
+}
+/* Make cards more clickable */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card:active {
+  transform: translateY(0);
+}
+
+/* Ensure buttons are clickable */
+.card .btn {
+  pointer-events: all; /* Ensure buttons receive click events */
+  cursor: pointer;
+}
+
+/* Make images clickable too */
+.card img {
+  pointer-events: none; /* Let clicks pass through to card */
+}
+
+/* Mobile optimization - always show book button */
+@media (max-width: 768px) {
+  .card .btn {
+    opacity: 1 !important;
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+}
+
+/* Visual feedback for clickable elements */
+.card:hover .btn {
+  background: var(--primary);
+  opacity: 0.9;
+}
+
+.card .btn:hover {
+  background: var(--accent);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+/* Edit Form Styles */
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 128, 128, 0.2);
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+.array-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+.array-input {
+  flex: 1;
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  min-width: auto;
+}
+
+.btn-remove {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-remove:hover {
+  background: #c82333;
+}
+
+.itinerary-day {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  background: var(--bg);
+}
+
+.itinerary-day h4 {
+  margin-bottom: 1rem;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+/* Card spacing for forms */
+.card {
+  margin-bottom: 1.5rem;
+}
+
+/* Button spacing */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Responsive form grid */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .array-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
